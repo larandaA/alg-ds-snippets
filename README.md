@@ -1,1 +1,5 @@
-# alg-ds-snippets
+# Заметки по АиСД
+
+Алгоритмы на  графах:
+
+* [BFS и DFS](dfs-bfs.md)
