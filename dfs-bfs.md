@@ -352,7 +352,7 @@ def bfs(start):
             if not visited[u]:
                 visited[u] = True
                 
-                ord[v] = next_idx # <-- вот
+                ord[u] = next_idx # <-- вот
                 next_idx += 1     # <-- здесь!
                 
                 q.enqueue(u)
