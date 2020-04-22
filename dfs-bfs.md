@@ -334,13 +334,16 @@ def bfs(start):
                 q.enqueue(u)
 ```
 
-Так как мы заходим в `if` для каждой вершины лишь один раз, то метку с порядком посещения можно выставить и внутри него:
+Так как мы заходим в `if` для каждой вершины лишь один раз, то метку с порядком посещения можно выставить и внутри него. Однако в этом случае необходимо выставлять метку для стартовой вершины отдельно.
 
 ```python
 next_idx = 0
 
 def bfs(start):
     q = queue()
+    
+    ord[start] = next_idx # <-- вот
+    next_idx += 1         # <-- здесь!
     
     visited[start] = True
     q.enqueue(start)
@@ -352,7 +355,7 @@ def bfs(start):
             if not visited[u]:
                 visited[u] = True
                 
-                ord[u] = next_idx # <-- вот
+                ord[u] = next_idx # <-- и вот
                 next_idx += 1     # <-- здесь!
                 
                 q.enqueue(u)
