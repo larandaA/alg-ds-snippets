@@ -334,6 +334,30 @@ def bfs(start):
                 q.enqueue(u)
 ```
 
+Так как мы заходим в `if` для каждой вершины лишь один раз, то метку с порядком посещения можно выставить и внутри него:
+
+```python
+next_idx = 0
+
+def bfs(start):
+    q = queue()
+    
+    visited[start] = True
+    q.enqueue(start)
+
+    while not q.empty():
+        v = q.dequeue()
+        
+        for u in g[v]:
+            if not visited[u]:
+                visited[u] = True
+                
+                ord[v] = next_idx # <-- вот
+                next_idx += 1     # <-- здесь!
+                
+                q.enqueue(u)
+```
+
 Если хотим найти растояние в ребрах до всех вершин:
 
 ```python
