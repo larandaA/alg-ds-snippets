@@ -95,7 +95,7 @@ def build_mst():
 
 ```python
 mst = []
-components = dsu()
+components = dsu(n)
 
 def finished():
     return len(mst) == n - 1
