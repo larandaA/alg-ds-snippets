@@ -56,7 +56,7 @@ def build_mst():
 обладает система непересекающихся множеств. Добавим ее:
 
 ```python
-components = dsu()
+components = dsu(n)
 
 def add_edge(edge):
     v, _, u = edge
