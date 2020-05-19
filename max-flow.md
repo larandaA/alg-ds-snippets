@@ -351,7 +351,7 @@ def min_cost_max_flow(s, t):
 ```python
 def flow_cost():
     edge_cost = lambda e: cost(e) * flow(e)
-    return sum(map(edge_cost, network_edges())) / 2
+    return sum(map(edge_cost, network_edges())) // 2
 ```
 
 Теперь перейдем к функции `remove_cycles`. В ней мы будем в цикле искать отрицательные циклы, пропускать по ним поток, устраняя их и тем самым уменьшая стоимость потока. Как только отрицательный цикл не найден, алгоритм можно завершать.
@@ -379,31 +379,22 @@ def remove_cycles(s):
 def find_cycle(s):
     dist[s] = 0
     
-    for i in range(n - 1):
+    for i in range(n):
 
         for e in network_edges():
             v = source(e)
             u = target(e)
             c = cost(e)
 
-            if available(e) == 0:
+            if dist[v] is None or available(e) == 0:
                 continue
 
             if dist[u] is None or dist[u] > dist[v] + c:
                 dist[u] = dist[v] + c
                 pred[u] = e
                 
-    for e in network_edges():
-        v = source(e)
-        u = target(e)
-        c = cost(e)
-
-        if available(e) == 0:
-            continue
-
-        if dist[u] is None or dist[u] > dist[v] + c:
-            pred[u] = e
-            return u
+                if i + 1 == n:
+                    return u
 
     return None
 ```
