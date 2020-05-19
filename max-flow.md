@@ -341,7 +341,7 @@ def min_cost_max_flow(s, t):
         return None
     build_network()
     result_flow = edmonds_karp(s, t)
-    remove_cycles()
+    remove_cycles(s)
     result_cost = flow_cost()
     return result_flow, result_cost
 ```
@@ -357,14 +357,14 @@ def flow_cost():
 Теперь перейдем к функции `remove_cycles`. В ней мы будем в цикле искать отрицательные циклы, пропускать по ним поток, устраняя их и тем самым уменьшая стоимость потока. Как только отрицательный цикл не найден, алгоритм можно завершать.
 
 ```python
-def remove_cycles():
+def remove_cycles(s):
     
     while True:
         for v in range(n):
             pred[v] = None
             dist[v] = None
         
-        v = find_cycle()
+        v = find_cycle(s)
         if v is None:
             break
         
