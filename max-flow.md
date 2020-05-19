@@ -162,10 +162,10 @@ def source(e):
 
 ```python
 def push(e, flow):
-    edge = flow_edge[e]
+    edge = flow_edges[e]
     edge.flow += flow
     
-    edge = flow_edge[e ^ 1]
+    edge = flow_edges[e ^ 1]
     edge.flow -= flow
 ```
 
