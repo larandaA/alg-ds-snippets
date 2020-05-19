@@ -341,7 +341,7 @@ def min_cost_max_flow(s, t):
         return None
     build_network()
     result_flow = edmonds_karp(s, t)
-    remove_cycles(s)
+    remove_cycles()
     result_cost = flow_cost()
     return result_flow, result_cost
 ```
@@ -354,17 +354,17 @@ def flow_cost():
     return sum(map(edge_cost, network_edges())) // 2
 ```
 
-Теперь перейдем к функции `remove_cycles`. В ней мы будем в цикле искать отрицательные циклы, пропускать по ним поток, устраняя их и тем самым уменьшая стоимость потока. Как только отрицательный цикл не найден, алгоритм можно завершать.
+Теперь перейдем к функции `remove_cycles`. В ней мы будем в цикле искать отрицательные циклы, пропускать по ним поток, устраняя их и тем самым уменьшая стоимость потока. Как только отрицательный цикл не найден, алгоритм можно завершать. Также нельзя начинать поиск цикла из вершины `s`, так как в остаточной сети, по которой уже пропущен максимальный поток, некоторые вершины и, соответственно, циклы могут быть недостижимы из вершины `s`. Поэтому начнем алгоритм "одновременно" из всех вершин сети, присвоив им значение `0` в массиве `dist` (при этом физический смысл значений в массиве теряется).
 
 ```python
-def remove_cycles(s):
+def remove_cycles():
     
     while True:
         for v in range(n):
             pred[v] = None
-            dist[v] = None
+            dist[v] = 0   # <-- здесь!
         
-        v = find_cycle(s)
+        v = find_cycle()
         if v is None:
             break
         
@@ -376,8 +376,7 @@ def remove_cycles(s):
 Находить цикл отрицательной стоимости будем с помощью алгоритма Форда-Беллмана. Если на последней итерации алгоритма была найдена вершина, для которой проведена релаксация, то эта вершина достижима из искомого цикла, и именно ее мы вернем.
 
 ```python
-def find_cycle(s):
-    dist[s] = 0
+def find_cycle():
     
     for i in range(n):  # <-- делаем последнюю итерацию
 
@@ -386,10 +385,10 @@ def find_cycle(s):
             u = target(e)
             c = cost(e)
 
-            if dist[v] is None or available(e) == 0:
+            if available(e) == 0:
                 continue
 
-            if dist[u] is None or dist[u] > dist[v] + c:
+            if dist[u] > dist[v] + c:
                 dist[u] = dist[v] + c
                 pred[u] = e
                 
