@@ -307,14 +307,14 @@ def path_cost(path):
 def find_path(s):
     dist[s] = 0
     
-    for i in range(n - 1):
+    for i in range(n - 1):  # <-- не делаем последнюю итерацию
 
         for e in network_edges():
             v = source(e)
             u = target(e)
             c = cost(e)
 
-            if available(e) == 0:
+            if dist[v] is None or available(e) == 0:
                 continue
 
             if dist[u] is None or dist[u] > dist[v] + c:
@@ -379,7 +379,7 @@ def remove_cycles(s):
 def find_cycle(s):
     dist[s] = 0
     
-    for i in range(n):
+    for i in range(n):  # <-- делаем последнюю итерацию
 
         for e in network_edges():
             v = source(e)
